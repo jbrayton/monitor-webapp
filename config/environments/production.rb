@@ -76,7 +76,7 @@ Rails.application.configure do
     config.logger    = ActiveSupport::TaggedLogging.new(logger)
   end
 
-  config.stacks = { "ft-prd" => "/var/monitor/config/ft-prd.json" }
+  config.stacks = { "ft-prd" => "/var/monitor/result/ft-prd.json" }
   config.log_path = '/var/log/passenger/monitor.log'
   config.logger = Logger.new(config.log_path, 10, 10*1024*1024)
 end
