@@ -83,7 +83,7 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
-  config.stacks = { "ft-prd" => "/var/monitor/ft-prd.json" }
+  config.stacks = { "ft-prd" => "/var/monitor/config/ft-prd.json" }
   config.log_path = '/var/log/passenger/monitor.log'
   config.logger = Logger.new(config.log_path, 10, 10*1024*1024)
 end
