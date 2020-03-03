@@ -1,6 +1,3 @@
-# config valid for current version and patch releases of Capistrano
-lock "~> 3.11.0"
-
 set :application, "monitor-webapp"
 set :repo_url, "git@bitbucket.org:johnbrayton/monitor-webapp.git"
 
