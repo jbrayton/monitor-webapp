@@ -1,6 +1,6 @@
 class StackController < ApplicationController
 
-	PAST_ALLOWANCE_SECONDS = 120
+	PAST_ALLOWANCE_SECONDS = 240
 	FUTURE_ALLOWANCE_SECONDS = 1
 	
 	PRIORITIES = ["high", "low"]
