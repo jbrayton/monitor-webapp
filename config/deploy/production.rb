@@ -1,4 +1,4 @@
-server '192.81.128.173', user: 'passenger', roles: %w{app web}, port: 14
+server '192.81.128.46', user: 'passenger', roles: %w{app web}, port: 14
 
 
 
