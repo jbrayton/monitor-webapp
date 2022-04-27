@@ -22,7 +22,7 @@ class StackController < ApplicationController
 		end
 
 		if !File.exist?(stack_file)
-			render :html => SOMETHING_WRONG
+			render :html => SOMETHING_WRONG, :status => :internal_server_error
 			return
 		end
 		
@@ -38,7 +38,7 @@ class StackController < ApplicationController
 			return
 		end
 		
-		render :html => SOMETHING_WRONG
+		render :html => SOMETHING_WRONG, :status => :internal_server_error
 	end
 
 	def status_for_hash(hash)

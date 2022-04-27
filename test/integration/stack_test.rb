@@ -21,11 +21,11 @@ class StackTest < ActionDispatch::IntegrationTest
 		assert_equal 404, @response.status
 		
 		get "/1.0/monitors/mystack/priorities/high"
-		assert_equal 200, @response.status
+		assert_equal 500, @response.status
 		assert_equal SOMETHING_WRONG, @response.body
 		
 		get "/1.0/monitors/mystack/priorities/low"
-		assert_equal 200, @response.status
+		assert_equal 500, @response.status
 		assert_equal SOMETHING_WRONG, @response.body
 		
 		File.write(TEST_FILE_PATH, JSON.generate({"status" => "good", "ts" => Time.now.to_i }))
@@ -45,17 +45,17 @@ class StackTest < ActionDispatch::IntegrationTest
 		assert_equal HEALTHY_STRING, @response.body
 		
 		get "/1.0/monitors/mystack/priorities/low"
-		assert_equal 200, @response.status
+		assert_equal 500, @response.status
 		assert_equal SOMETHING_WRONG, @response.body
 		
 		File.write(TEST_FILE_PATH, JSON.generate({"status" => "error", "ts" => Time.now.to_i }))
 		
 		get "/1.0/monitors/mystack/priorities/high"
-		assert_equal 200, @response.status
+		assert_equal 500, @response.status
 		assert_equal SOMETHING_WRONG, @response.body
 		
 		get "/1.0/monitors/mystack/priorities/low"
-		assert_equal 200, @response.status
+		assert_equal 500, @response.status
 		assert_equal SOMETHING_WRONG, @response.body
 		
 	end
