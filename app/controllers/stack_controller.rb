@@ -22,6 +22,7 @@ class StackController < ApplicationController
 		end
 
 		if !File.exist?(stack_file)
+			Rails.logger.info("returning error because cannot find #{stack_file}")
 			render :html => SOMETHING_WRONG, :status => :internal_server_error
 			return
 		end
@@ -38,11 +39,13 @@ class StackController < ApplicationController
 			return
 		end
 		
+		Rails.logger.info("returning error because status is .#{status}.")
 		render :html => SOMETHING_WRONG, :status => :internal_server_error
 	end
 
 	def status_for_hash(hash)
 		if hash.nil? or !hash.is_a?(Hash)
+			Rails.logger.info("returning error because not an error")
 			return :error
 		end
 		
@@ -53,9 +56,11 @@ class StackController < ApplicationController
 		now_ts = Time.now.to_i
 		
 		if ts < now_ts - PAST_ALLOWANCE_SECONDS
+			Rails.logger.info("returning error ts too old")
 			return :error
 		end
 		if ts > now_ts + FUTURE_ALLOWANCE_SECONDS
+			Rails.logger.info("returning error ts new old")
 			return :error
 		end
 		
