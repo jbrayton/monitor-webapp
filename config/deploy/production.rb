@@ -1,4 +1,4 @@
-server '192.81.134.167', user: 'passenger', roles: %w{app}, port: 14
+server '74.207.242.231', user: 'passenger', roles: %w{app}, port: 14
 
 set :ssh_options, {
   forward_agent: true,
