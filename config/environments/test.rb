@@ -53,5 +53,6 @@ Rails.application.configure do
   # config.i18n.raise_on_missing_translations = true
 
   config.stacks = { "mystack" => "/Users/jbrayton/Documents/monitor-webapp/test_result_files/testfile.json" }
+  config.current_status_file = "/Users/jbrayton/Documents/monitor-webapp/test_result_files/testfile.json"
   
 end
