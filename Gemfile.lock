@@ -112,6 +112,7 @@ GEM
     marcel (1.0.2)
     method_source (1.0.0)
     mini_mime (1.1.2)
+    mini_portile2 (2.8.7)
     minitest (5.19.0)
     msgpack (1.7.2)
     net-imap (0.3.7)
@@ -127,9 +128,8 @@ GEM
       net-protocol
     net-ssh (7.1.0)
     nio4r (2.5.9)
-    nokogiri (1.15.3-x86_64-darwin)
-      racc (~> 1.4)
-    nokogiri (1.15.3-x86_64-linux)
+    nokogiri (1.15.3)
+      mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
     puma (3.12.6)
     racc (1.7.1)
@@ -179,6 +179,8 @@ GEM
     timeout (0.4.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
+    tzinfo-data (1.2024.2)
+      tzinfo (>= 1.0.0)
     websocket-driver (0.7.6)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
@@ -187,6 +189,7 @@ GEM
 PLATFORMS
   x86_64-darwin-21
   x86_64-darwin-22
+  x86_64-darwin-23
   x86_64-linux
 
 DEPENDENCIES

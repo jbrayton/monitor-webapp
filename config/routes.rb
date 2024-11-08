@@ -6,6 +6,8 @@ Rails.application.routes.draw do
 
 	controller :current do
 		get '/current' => :show_status, :format => false
+		get '/high' => :high, :format => false
+		get '/low' => :low, :format => false
 	end
 
 	controller :hello do
