@@ -16,9 +16,20 @@ class CurrentController < ApplicationController
 
 	def high
 		status = current_status()
+		if status == :error_bad_time
+			render :json => {}, :status => :internal_server_error
+			return
+		end
 		if status == :good or status == :warn
 			render :json => {}
 			return
+		end
+		prior_status = prior_status()
+		if !prior_status.nil?
+			if prior_status == :good or prior_status == :warn
+				render :json => {}
+				return
+			end
 		end
 		render :json => {}, :status => :internal_server_error
 	end

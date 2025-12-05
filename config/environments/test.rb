@@ -54,5 +54,6 @@ Rails.application.configure do
 
   config.stacks = { "mystack" => "/Users/jbrayton/Documents/monitor-webapp/test_result_files/testfile.json" }
   config.current_status_file = "/Users/jbrayton/Documents/monitor-webapp/test_result_files/testfile.json"
+  config.prior_status_file = "/Users/jbrayton/Documents/monitor-webapp/test_result_files/testfile-prior.json"
   
 end
