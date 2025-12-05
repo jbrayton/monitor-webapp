@@ -36,9 +36,20 @@ class CurrentController < ApplicationController
 
 	def low
 		status = current_status()
+		if status == :error_bad_time
+			render :json => {}, :status => :internal_server_error
+			return
+		end
 		if status == :good
 			render :json => {}
 			return
+		end
+		prior_status = prior_status()
+		if !prior_status.nil?
+			if prior_status == :good
+				render :json => {}
+				return
+			end
 		end
 		render :json => {}, :status => :internal_server_error
 	end
