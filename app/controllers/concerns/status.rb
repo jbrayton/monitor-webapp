@@ -1,5 +1,6 @@
 module Status extend ActiveSupport::Concern
 
+	PAST_ALLOWANCE_SECONDS_PRIOR = 1200
 	PAST_ALLOWANCE_SECONDS = 600
 	FUTURE_ALLOWANCE_SECONDS = 1
 	
@@ -15,6 +16,20 @@ module Status extend ActiveSupport::Concern
 			return nil
 		end
 		json = JSON.parse(File.read(status_file_path))
+
+		ts = json["ts"]
+		if ts.nil? or !ts.is_a?(Integer)
+			return :error_bad_time
+		end
+		now_ts = Time.now.to_i
+		
+		if ts < now_ts - PAST_ALLOWANCE_SECONDS_PRIOR
+			return :error_bad_time
+		end
+		if ts > now_ts + FUTURE_ALLOWANCE_SECONDS
+			return :error_bad_time
+		end
+
 		if json["status"] == "good"
 			return :good
 		end

@@ -77,6 +77,31 @@ class CurrentControllerTest < ActionDispatch::IntegrationTest
 			File.write(Rails.configuration.current_status_file, JSON.generate({"status" => "error", "ts" => Time.now.to_i, "warnings" => [], "errors" => [] }))
 			get "/high"
 			assert_equal 200, @response.status
+
+			# If prior was good but had bad time
+	
+			[Time.now.to_i + 3, Time.now.to_i - 1201].each do |prior_time|
+				File.write(Rails.configuration.prior_status_file, JSON.generate({"status" => other_status, "ts" => prior_time, "warnings" => [], "errors" => [] }))
+				File.write(Rails.configuration.current_status_file, JSON.generate({"status" => "good", "ts" => Time.now.to_i, "warnings" => [], "errors" => [] }))
+				get "/high"
+				assert_equal 200, @response.status
+		
+				File.write(Rails.configuration.current_status_file, JSON.generate({"status" => "warn", "ts" => Time.now.to_i, "warnings" => [], "errors" => [] }))
+				get "/high"
+				assert_equal 200, @response.status
+		
+				File.write(Rails.configuration.current_status_file, JSON.generate({"status" => "warning", "ts" => Time.now.to_i, "warnings" => [], "errors" => [] }))
+				get "/high"
+				assert_equal 200, @response.status
+		
+				File.write(Rails.configuration.current_status_file, JSON.generate({"status" => "warning", "ts" => Time.now.to_i+3, "warnings" => [], "errors" => [] }))
+				get "/high"
+				assert_equal 500, @response.status
+		
+				File.write(Rails.configuration.current_status_file, JSON.generate({"status" => "error", "ts" => Time.now.to_i, "warnings" => [], "errors" => [] }))
+				get "/high"
+				assert_equal 500, @response.status
+			end
 		end
 	
 		File.write(Rails.configuration.prior_status_file, JSON.generate({"status" => "error", "ts" => Time.now.to_i, "warnings" => [], "errors" => [] }))
@@ -149,6 +174,33 @@ class CurrentControllerTest < ActionDispatch::IntegrationTest
 		File.write(Rails.configuration.current_status_file, JSON.generate({"status" => "error", "ts" => Time.now.to_i, "warnings" => [], "errors" => [] }))
 		get "/low"
 		assert_equal 200, @response.status
+
+		# If prior was good but had bad time
+
+		[Time.now.to_i + 3, Time.now.to_i - 1201].each do |prior_time|
+			File.write(Rails.configuration.prior_status_file, JSON.generate({"status" => "good", "ts" => prior_time, "warnings" => [], "errors" => [] }))
+			
+			File.write(Rails.configuration.current_status_file, JSON.generate({"status" => "good", "ts" => Time.now.to_i, "warnings" => [], "errors" => [] }))
+			get "/low"
+			assert_equal 200, @response.status
+	
+			File.write(Rails.configuration.current_status_file, JSON.generate({"status" => "warn", "ts" => Time.now.to_i, "warnings" => [], "errors" => [] }))
+			get "/low"
+			assert_equal 500, @response.status
+	
+			File.write(Rails.configuration.current_status_file, JSON.generate({"status" => "warning", "ts" => Time.now.to_i, "warnings" => [], "errors" => [] }))
+			get "/low"
+			assert_equal 500, @response.status
+	
+			File.write(Rails.configuration.current_status_file, JSON.generate({"status" => "warning", "ts" => Time.now.to_i+3, "warnings" => [], "errors" => [] }))
+			get "/low"
+			assert_equal 500, @response.status
+	
+			File.write(Rails.configuration.current_status_file, JSON.generate({"status" => "error", "ts" => Time.now.to_i, "warnings" => [], "errors" => [] }))
+			get "/low"
+			assert_equal 500, @response.status
+		
+		end
 
 		["warn","error"].each do |other_status|
 			File.write(Rails.configuration.prior_status_file, JSON.generate({"status" => other_status, "ts" => Time.now.to_i, "warnings" => [], "errors" => [] }))
