@@ -1,8 +1,7 @@
 class StackController < ApplicationController
 
-	PAST_ALLOWANCE_SECONDS = 600
-	FUTURE_ALLOWANCE_SECONDS = 1
-	
+	include Status
+
 	PRIORITIES = ["high", "low"]
 	
 	HEALTHY_STRING = "com.goldenhillsoftware.systemishealthy"
@@ -41,36 +40,6 @@ class StackController < ApplicationController
 		
 		Rails.logger.info("returning error because status is .#{status}.")
 		render :html => SOMETHING_WRONG, :status => :internal_server_error
-	end
-
-	def status_for_hash(hash)
-		if hash.nil? or !hash.is_a?(Hash)
-			Rails.logger.info("returning error because not an error")
-			return :error
-		end
-		
-		ts = hash["ts"]
-		if ts.nil? or !ts.is_a?(Integer)
-			return :error
-		end
-		now_ts = Time.now.to_i
-		
-		if ts < now_ts - PAST_ALLOWANCE_SECONDS
-			Rails.logger.info("returning error ts too old")
-			return :error
-		end
-		if ts > now_ts + FUTURE_ALLOWANCE_SECONDS
-			Rails.logger.info("returning error ts new old")
-			return :error
-		end
-		
-		if hash["status"] == "good"
-			return :good
-		end
-		if hash["status"] == "warn"
-			return :warn
-		end
-		return :error
 	end
 
 end

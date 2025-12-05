@@ -1,5 +1,7 @@
 class CurrentController < ApplicationController
 
+	include Status
+
 	def show_status
 		status_file_path = Rails.configuration.current_status_file
 		json = JSON.parse(File.read(status_file_path))
@@ -15,15 +17,12 @@ class CurrentController < ApplicationController
 	def high
 		status_file_path = Rails.configuration.current_status_file
 		json = JSON.parse(File.read(status_file_path))
-		if json["status"] == "good"
+		status = status_for_hash(json)
+		if status == :good
 			render :json => {}
 			return
 		end
-		if json["status"] == "warn"
-			render :json => {}
-			return
-		end
-		if json["status"] == "warning"
+		if status == :warn
 			render :json => {}
 			return
 		end
@@ -33,7 +32,8 @@ class CurrentController < ApplicationController
 	def low
 		status_file_path = Rails.configuration.current_status_file
 		json = JSON.parse(File.read(status_file_path))
-		if json["status"] == "good"
+		status = status_for_hash(json)
+		if status == :good
 			render :json => {}
 			return
 		end

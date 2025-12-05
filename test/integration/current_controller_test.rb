@@ -43,6 +43,10 @@ class CurrentControllerTest < ActionDispatch::IntegrationTest
 		get "/high"
 		assert_equal 200, @response.status
 
+		File.write(Rails.configuration.current_status_file, JSON.generate({"status" => "warning", "ts" => Time.now.to_i+3, "warnings" => [], "errors" => [] }))
+		get "/high"
+		assert_equal 500, @response.status
+
 		File.write(Rails.configuration.current_status_file, JSON.generate({"status" => "error", "ts" => Time.now.to_i, "warnings" => [], "errors" => [] }))
 		get "/high"
 		assert_equal 500, @response.status
